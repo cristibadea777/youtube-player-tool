@@ -16,7 +16,7 @@
     "react-player": "^2.14.1"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.5.7",
+    "@tauri-apps/cli": "^1.5.9",
     "@vitejs/plugin-react": "^4.0.3",
     "vite": "^4.4.4"
   }

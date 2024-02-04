@@ -22,7 +22,7 @@
         "icons/icon.ico"
       ],
       "externalBin": [
-        "../bin/playlist_urls"
+        "../bin/playlist_videos"
       ]
     },
     "allowlist": {
@@ -30,7 +30,7 @@
         "sidecar": true,
         "scope": [
           {
-            "name": "../bin/playlist_urls",
+            "name": "../bin/playlist_videos",
             "sidecar": true,
             "args": true
           }
@@ -81,8 +81,8 @@
         "fullscreen": false,
         "resizable": false,
         "title": "youtube-player-tool",
-        "width": 310,
-        "height": 350
+        "width": 300,
+        "height": 330
       }
     ]
   }

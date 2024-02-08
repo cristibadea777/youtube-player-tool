@@ -1,4 +1,4 @@
-import { faArrowLeftLong, faArrowRightLong, faPause, faPlay, faVolumeHigh, faVolumeMute } from "@fortawesome/free-solid-svg-icons"
+import { faPause, faPlay, faVolumeHigh, faVolumeMute } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useRef, useState } from "react"
 import ReactPlayer from "react-player"
@@ -44,18 +44,12 @@ const VideoPlayer = ({link, playlistVideos, indexClipCurent, setIndexClipCurent,
             </div>
 
             <div style={{width: "100%", height: "20%", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#201c1c"}}>
-                {playlistVideos && (
-                    <button className={indexClipCurent === 0 ? "buton-disabled" : ""} disabled={indexClipCurent === 0} onClick={() => {setIndexClipCurent(indexClipCurent - 1)}}><FontAwesomeIcon icon={faArrowLeftLong}></FontAwesomeIcon></button>
-                )}
                 <button onClick={() => {setPlaying(!playing)} }> 
                     {!playing ? ( <FontAwesomeIcon icon={faPlay}></FontAwesomeIcon> ) : ( <FontAwesomeIcon icon={faPause}></FontAwesomeIcon> )} 
                 </button>
                 <button onClick={() => {setMuted(!muted)} }> 
                 {!muted ? ( <FontAwesomeIcon icon={faVolumeMute}></FontAwesomeIcon> ) : ( <FontAwesomeIcon icon={faVolumeHigh}></FontAwesomeIcon> )}
                 </button>
-                {playlistVideos && (
-                    <button className={indexClipCurent === playlistVideos.length - 1 ? "buton-disabled" : ""} disabled={indexClipCurent === playlistVideos.length - 1} onClick={() => {setIndexClipCurent(indexClipCurent + 1)}}><FontAwesomeIcon icon={faArrowRightLong}></FontAwesomeIcon></button>
-                )}
             </div>
 
         </div>

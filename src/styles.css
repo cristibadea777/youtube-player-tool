@@ -45,6 +45,15 @@ button:active {
   background-color: #e8e8e8;
 }
 
+.butonOptiuni {
+  font-size: 0.8em; 
+  color: white;
+  white-space: wrap;
+  overflow: hidden; 
+  padding: 3%;
+  margin-top: 3%;
+}
+
 .butonMeniuDreapta{
   margin-top: 8%;
   margin-bottom: 10%;
@@ -52,7 +61,7 @@ button:active {
 }
 
 .divVideoPlaylist:hover {
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid black;
   cursor: pointer;
 }
 .divVideoPlaylist label:hover{
@@ -92,6 +101,10 @@ button:active {
 
   html, body {
     overflow: hidden;
+  }
+
+  * {
+    scrollbar-color: black #0f0f0f69; 
   }
 
 }

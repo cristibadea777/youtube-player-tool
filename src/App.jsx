@@ -1,23 +1,36 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import { createDatabase, queryLibraryPlaylists } from "./DatabaseFunctions";
 import { loadPlaylist } from "./PlaylistFunctions";
 import MeniuDreapta from "./components/MeniuDreapta/MeniuDreapta";
-import MeniuPlaylist from './components/Meniuri/MeniuPlaylist';
+import MeniuBiblioteca from "./components/Meniuri/MeniuBiblioteca/MeniuBiblioteca";
+import MeniuPlaylist from './components/Meniuri/MeniuPlaylist/MeniuPlaylist';
 import MeniuSetari from './components/Meniuri/MeniuSetari';
 import VideoPlayer from './components/VideoPlayer/VideoPlayer';
 
 
 function App() {
-  
 
+  const [inputLink,        setInputLink]        = useState('')
+  const [link,             setLink]             = useState('')
+  const [indexClipCurent,  setIndexClipCurent]  = useState(0)
+  const [labelPlaylist,    setLabelPlaylist]    = useState("Select a playlist first")
+  const [playlistName,     setPlaylistName]     = useState('')
+  const [playlistLength,   setPlaylistLength]   = useState('')
+  const [playlistVideos,   setPlaylistVideos]   = useState([])
+  const [libraryPlaylists, setLibraryPlaylists] = useState([])
 
-  const [inputLink,       setInputLink]       = useState('')
-  const [link,            setLink]            = useState('')
-  const [indexClipCurent, setIndexClipCurent] = useState(0)
-  const [labelPlaylist,   setLabelPlaylist]   = useState("Select a playlist first")
-  const [playlistName,    setPlaylistName]    = useState('')
-  const [playlistLength,  setPlaylistLength]  = useState('')
-  const [playlistVideos,  setPlaylistVideos]  = useState([])
+  const loadLibrary = async () => {
+    const playlists = await queryLibraryPlaylists()
+    console.log(libraryPlaylists)
+    setLibraryPlaylists(playlists)
+  }
+
+  useEffect(
+    () => {
+      loadLibrary()
+    }, []
+  )
 
   useEffect(
     () => {
@@ -49,15 +62,22 @@ function App() {
 
   //pe viitor sa se poata seta in setari si luata
   const minWidth = "300px"
-  
-  const [viewSetari,    setViewSetari]   = useState(false)
-  const [viewLibrary,   setViewLibrary]  = useState(false)
-  const [viewCut,       setViewCut]      = useState(false)
-  const [viewPlaylist,  setViewPlaylist] = useState(false)
+
+  const [viewSetari,      setViewSetari]      = useState(false)
+  const [viewCut,         setViewCut]         = useState(false)
+  const [viewPlaylist,    setViewPlaylist]    = useState(false)
+  const [viewBiblioteca,  setViewBiblioteca]  = useState(false)
+
+  useEffect(
+    () => {
+      //emptyDatabase()
+      createDatabase()
+    }, []
+  )
 
   return (
     <div style={{width: "100vw", height: "100vh", display: "flex", alignItems: "flex-start", flexDirection: "row"}}>
-      
+
       <div style={{width: minWidth, display: "flex", alignItems: "flex-start", flexDirection: "row"}}>
         <div style={{width: "80vw", height: "100vh"}}>
           <VideoPlayer 
@@ -70,16 +90,16 @@ function App() {
         </div>
         <div style={{width: "20vw", height: "100vh", display: "flex", alignItems: "flex-start", flexDirection: "column"}}>
           <MeniuDreapta  
-            setInputLink    = {setInputLink}
-            setViewSetari   = {setViewSetari}
-            setViewLibrary  = {setViewLibrary}
-            setViewCut      = {setViewCut}
-            setViewPlaylist = {setViewPlaylist}
-            playlistVideos  = {playlistVideos}
-            viewSetari      = {viewSetari}
-            viewLibrary     = {viewLibrary}
-            viewCut         = {viewCut}
-            viewPlaylist    = {viewPlaylist}
+            setInputLink      = {setInputLink}
+            setViewSetari     = {setViewSetari}
+            setViewCut        = {setViewCut}
+            setViewPlaylist   = {setViewPlaylist}
+            setViewBiblioteca = {setViewBiblioteca}
+            playlistVideos    = {playlistVideos}
+            viewSetari        = {viewSetari}
+            viewBiblioteca    = {viewBiblioteca}
+            viewCut           = {viewCut}
+            viewPlaylist      = {viewPlaylist}
           />
         </div>
       </div>
@@ -90,10 +110,19 @@ function App() {
       )}
       {viewPlaylist && ( 
         <MeniuPlaylist 
-          playlistVideos     = {playlistVideos} 
-          labelPlaylist      = {labelPlaylist}
-          indexClipCurent    = {indexClipCurent}
-          setIndexClipCurent = {setIndexClipCurent}
+          playlistVideos      = {playlistVideos} 
+          labelPlaylist       = {labelPlaylist}
+          indexClipCurent     = {indexClipCurent}
+          playlistName        = {playlistName}
+          inputLink           = {inputLink}
+          setLibraryPlaylists = {setLibraryPlaylists}
+          setIndexClipCurent  = {setIndexClipCurent}
+        /> 
+      )}
+      {viewBiblioteca && (
+        <MeniuBiblioteca 
+          libraryPlaylists = {libraryPlaylists}
+          setInputLink     = {setInputLink}
         /> 
       )}
 

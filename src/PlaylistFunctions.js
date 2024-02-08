@@ -18,9 +18,20 @@ const loadPlaylist = async (inputLink, setPlaylistVideos, setPlaylistName, setPl
       setLabelPlaylist("Select a playlist first")
 
     } catch (error) { 
-        
         console.log(error)
         setLabelPlaylist("Error")
     }
 }
-export { loadPlaylist };
+
+const extractVideoId = (url) => {
+  const match = url.match(/[?&]v=([^&]+)/);
+  const videoId = match && match[1] ? match[1] : null;
+  return videoId
+}
+
+const getVideoThumbnail = (url) => {
+  return "https://i3.ytimg.com/vi/" + extractVideoId(url) + "/hqdefault.jpg"
+}
+
+export { getVideoThumbnail, loadPlaylist };
+

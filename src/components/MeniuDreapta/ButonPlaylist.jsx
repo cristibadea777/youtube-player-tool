@@ -3,14 +3,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 //daca s-a uploadat un playlist {links prezent sau view librarie} se afiseaza butonu. care e toggle pt meniu de playlist curent
 
-const ButonPlaylist = ({resizeWindow, viewPlaylist, setViewSetari, setViewPlaylist}) => {
+const ButonPlaylist = ({resizeWindow, viewPlaylist, setViewSetari, viewBiblioteca, setViewPlaylist}) => {
 
     const handleClickButonPlaylist = () => {
         if(viewPlaylist === false){
-            resizeWindow(640)
+            if(viewBiblioteca === false) resizeWindow(640)
+            else resizeWindow(940)
             setViewSetari(false)
         } 
-        else resizeWindow(300)
+        else{
+            if(viewBiblioteca === false) resizeWindow(300)
+            else resizeWindow(640)
+        }
         setViewPlaylist(!viewPlaylist)
     }
 

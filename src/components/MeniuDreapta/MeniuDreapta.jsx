@@ -1,12 +1,12 @@
 import { currentMonitor, getCurrent } from "@tauri-apps/api/window"
+import ButonBiblioteca from "./ButonBiblioteca"
 import ButonCut from "./ButonCut"
-import ButonLibrary from "./ButonLibrary"
 import ButonPlaylist from "./ButonPlaylist"
 import ButonSetari from "./ButonSetari"
 import ButonUpload from "./ButonUpload"
 
 
-const MeniuDreapta = ( {setInputLink, playlistVideos, viewSetari, viewLibrary, viewCut, viewPlaylist, setViewSetari, setViewLibrary, setViewCut, setViewPlaylist} ) => {
+const MeniuDreapta = ( {setInputLink, playlistVideos, viewSetari, viewBiblioteca, viewCut, viewPlaylist, setViewSetari, setViewCut, setViewPlaylist, setViewBiblioteca} ) => {
   
   const resizeWindow = async (width) => {
     if(window.__TAURI__ !== undefined){ //doar pt desktop nu pt web
@@ -28,6 +28,7 @@ const MeniuDreapta = ( {setInputLink, playlistVideos, viewSetari, viewLibrary, v
       <ButonPlaylist 
         resizeWindow    = {resizeWindow}
         viewPlaylist    = {viewPlaylist}
+        viewBiblioteca  = {viewBiblioteca}
         setViewPlaylist = {setViewPlaylist}
         setViewSetari   = {setViewSetari}
       />
@@ -35,7 +36,13 @@ const MeniuDreapta = ( {setInputLink, playlistVideos, viewSetari, viewLibrary, v
       <ButonCut 
       />
 
-      <ButonLibrary
+      <ButonBiblioteca
+        resizeWindow      = {resizeWindow}
+        viewBiblioteca    = {viewBiblioteca}
+        viewPlaylist      = {viewPlaylist}
+        setViewBiblioteca = {setViewBiblioteca}
+        setViewSetari     = {setViewSetari}
+        setInputLink      = {setInputLink} 
       />
 
       <ButonSetari

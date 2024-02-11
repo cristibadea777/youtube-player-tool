@@ -25,10 +25,10 @@ const ClipuriPlaylist = ({playlistVideos, indexClipCurent, setIndexClipCurent}) 
                         <div style={{height: "70px", width: "10%", display: "flex", flexDirection: "column", alignItems:"center", justifyContent: "center"}}>
                             <label style={{fontSize: "0.6em", color: "white", whiteSpace: "wrap", overflow: "hidden"}}> {index} </label>
                         </div>
-                        <img style={{height: "70px", width: "30%"}} src={getVideoThumbnail(video["video_url"])} ></img>
+                        <img style={{height: "70px", width: "30%"}} src={getVideoThumbnail(video["url_video"])} ></img>
                         <div style={{height: "70px", width: "60%", display: "flex", flexDirection: "row"}}>
                             <div style={{width: "80%", height: "100%", display: "flex", alignItems: "flex-start", justifyContent: "flex-start", padding: "0.5em"}}>
-                                <label style={{fontSize: "0.6em", color: "white", whiteSpace: "wrap", overflow: "hidden"}}> {video["video_title"]} </label>
+                                <label style={{fontSize: "0.6em", color: "white", whiteSpace: "wrap", overflow: "hidden"}}> {video["nume_video"]} </label>
                             </div>
                         </div>
                     </div>

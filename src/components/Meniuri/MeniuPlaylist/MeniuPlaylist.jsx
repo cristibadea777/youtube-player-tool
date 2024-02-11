@@ -3,7 +3,7 @@ import ClipuriPlaylist from "./ClipuriPlaylist";
 import OptiuniPlaylist from "./OptiuniPlaylist";
 import TitluPlaylist from "./TitluPlaylist";
 
-const MeniuPlaylist = ({playlistVideos, labelPlaylist, indexClipCurent, setIndexClipCurent, playlistName, inputLink, setLibraryPlaylists}) => {
+const MeniuPlaylist = ({playlistVideos, labelPlaylist, indexClipCurent, setIndexClipCurent, playlistName, inputLink, setLibraryPlaylists, selectedLink}) => {
 
     const [viewOptiuniPlaylist, setViewOptiuniPlaylist] = useState(false)
     
@@ -32,10 +32,10 @@ const MeniuPlaylist = ({playlistVideos, labelPlaylist, indexClipCurent, setIndex
                 ) : (
                     <>
                     <OptiuniPlaylist 
-                        viewOptiuniPlaylist    = {viewOptiuniPlaylist}
                         setViewOptiuniPlaylist = {setViewOptiuniPlaylist}
                         playlistName           = {playlistName}
                         inputLink              = {inputLink}
+                        selectedLink           = {selectedLink}
                         playlistVideos         = {playlistVideos}
                         setLibraryPlaylists    = {setLibraryPlaylists}
                     />

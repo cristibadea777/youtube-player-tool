@@ -6,17 +6,17 @@ import concurrent.futures
 
 #1500 clipuri in playlist => ruleaza in ~20 secunde 
 
-def get_video_info(video_url):
+def get_video_info(url_video):
     try:
-        video = YouTube(video_url)
+        video = YouTube(url_video)
         info_video = {
-            "video_title"  :  video.title,
-            "video_url"    :  video_url
+            "nume_video"   :  video.title,
+            "url_video"    :  url_video
         }
         return info_video
     except Exception as e: 
-        print(f"Error fetching video info for {video_url}: {e}")
-        return {"error" :  f"Error fetching video info for {video_url}"}
+        print(f"Error fetching video info for {url_video}: {e}")
+        return {"error" :  f"Error fetching video info for {url_video}"}
 
 def get_playlist_info(playlist_url):
     try:

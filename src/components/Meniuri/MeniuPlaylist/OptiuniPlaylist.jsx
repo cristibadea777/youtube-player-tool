@@ -2,10 +2,14 @@ import { faCopy, faDownload, faSave, faX } from "@fortawesome/free-solid-svg-ico
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { checkIfPlaylistExists, insertPlaylist, queryLibraryPlaylists } from "../../../DatabaseFunctions"
 
-const OptiuniPlaylist = ({viewOptiuniPlaylist, setViewOptiuniPlaylist, playlistName, inputLink, playlistVideos, setLibraryPlaylists}) => {
-    
+const OptiuniPlaylist = ({setViewOptiuniPlaylist, playlistName, inputLink, selectedLink, playlistVideos, setLibraryPlaylists}) => {
+
     const handleCopyLink = () => {
-        navigator.clipboard.writeText(inputLink)
+        //cand se selecteaza un  playlist din biblioteca input link devine gol de asta e conditia
+        if(inputLink !== '')
+            navigator.clipboard.writeText(inputLink)
+        else
+            navigator.clipboard.writeText(selectedLink)
         handleClose()
     }
 

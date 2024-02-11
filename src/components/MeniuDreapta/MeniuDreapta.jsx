@@ -6,7 +6,7 @@ import ButonSetari from "./ButonSetari"
 import ButonUpload from "./ButonUpload"
 
 
-const MeniuDreapta = ( {setInputLink, playlistVideos, viewSetari, viewBiblioteca, viewCut, viewPlaylist, setViewSetari, setViewCut, setViewPlaylist, setViewBiblioteca} ) => {
+const MeniuDreapta = ( {setInputLink, setPlaylistVideos, playlistVideos, viewSetari, viewBiblioteca, viewCut, viewPlaylist, setViewSetari, setViewCut, setViewPlaylist, setViewBiblioteca} ) => {
   
   const resizeWindow = async (width) => {
     if(window.__TAURI__ !== undefined){ //doar pt desktop nu pt web
@@ -22,7 +22,8 @@ const MeniuDreapta = ( {setInputLink, playlistVideos, viewSetari, viewBiblioteca
   return (
     <div style={{height: "100%", width: "100%", display: "flex", justifyContent: "flex-start", alignItems: "flex-start", flexDirection: "column", backgroundColor: "#201c1c"}}>
       <ButonUpload 
-        setInputLink ={setInputLink} 
+        setInputLink      = {setInputLink} 
+        setPlaylistVideos = {setPlaylistVideos}
       />
       
       <ButonPlaylist 
@@ -42,7 +43,6 @@ const MeniuDreapta = ( {setInputLink, playlistVideos, viewSetari, viewBiblioteca
         viewPlaylist      = {viewPlaylist}
         setViewBiblioteca = {setViewBiblioteca}
         setViewSetari     = {setViewSetari}
-        setInputLink      = {setInputLink} 
       />
 
       <ButonSetari

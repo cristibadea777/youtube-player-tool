@@ -1,13 +1,15 @@
 import { Command } from '@tauri-apps/api/shell';
 
 //preluare url-uri din playlist cu programul sidecar facut in python
-const loadPlaylist = async (inputLink, setPlaylistVideos, setPlaylistName, setPlaylistLength, setLabelPlaylist) => {
+const loadPlaylist = async (link, setPlaylistVideos, setPlaylistName, setPlaylistLength, setLabelPlaylist) => {
     try {
       setLabelPlaylist("Loading...")
 
-      const command = Command.sidecar('../bin/playlist_videos', [inputLink])
+      const command = Command.sidecar('../bin/playlist_videos', [link])
       const output = await command.execute()
       const outputString = output.stdout    
+
+      console.log(outputString)
       
       const playlist = JSON.parse(outputString)
       
@@ -23,6 +25,14 @@ const loadPlaylist = async (inputLink, setPlaylistVideos, setPlaylistName, setPl
     }
 }
 
+const loadPlaylistFromDatabase = (playlist, setPlaylistVideos, setPlaylistName, setPlaylistLength, setLabelPlaylist) => {
+  setLabelPlaylist("Loading...")
+  setPlaylistName(playlist["nume_playlist"])
+  setPlaylistLength(playlist["length_playlist"])
+  setPlaylistVideos(playlist["playlist_videos"])
+  setLabelPlaylist("Select a playlist first")
+}
+
 const extractVideoId = (url) => {
   const match = url.match(/[?&]v=([^&]+)/);
   const videoId = match && match[1] ? match[1] : null;
@@ -33,5 +43,4 @@ const getVideoThumbnail = (url) => {
   return "https://i3.ytimg.com/vi/" + extractVideoId(url) + "/hqdefault.jpg"
 }
 
-export { getVideoThumbnail, loadPlaylist };
-
+export { getVideoThumbnail, loadPlaylist, loadPlaylistFromDatabase };

@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { createDatabase, queryLibraryPlaylists } from "./DatabaseFunctions";
-import { loadPlaylist } from "./PlaylistFunctions";
+import { createDatabase, queryLibraryPlaylists, queryPlaylist } from "./DatabaseFunctions";
+import { loadPlaylist, loadPlaylistFromDatabase } from "./PlaylistFunctions";
 import MeniuDreapta from "./components/MeniuDreapta/MeniuDreapta";
 import MeniuBiblioteca from "./components/Meniuri/MeniuBiblioteca/MeniuBiblioteca";
 import MeniuPlaylist from './components/Meniuri/MeniuPlaylist/MeniuPlaylist';
 import MeniuSetari from './components/Meniuri/MeniuSetari';
 import VideoPlayer from './components/VideoPlayer/VideoPlayer';
-
-
+  
 function App() {
 
-  const [inputLink,        setInputLink]        = useState('')
-  const [link,             setLink]             = useState('')
-  const [indexClipCurent,  setIndexClipCurent]  = useState(0)
-  const [labelPlaylist,    setLabelPlaylist]    = useState("Select a playlist first")
-  const [playlistName,     setPlaylistName]     = useState('')
-  const [playlistLength,   setPlaylistLength]   = useState('')
-  const [playlistVideos,   setPlaylistVideos]   = useState([])
-  const [libraryPlaylists, setLibraryPlaylists] = useState([])
-
+  const [inputLink,         setInputLink]        = useState('')
+  const [selectedLink,      setSelectedLink]     = useState('')
+  const [link,              setLink]             = useState('')
+  const [indexClipCurent,   setIndexClipCurent]  = useState(0)
+  const [labelPlaylist,     setLabelPlaylist]    = useState("Select a playlist first")
+  const [playlistName,      setPlaylistName]     = useState('')
+  const [playlistLength,    setPlaylistLength]   = useState('')
+  const [playlistVideos,    setPlaylistVideos]   = useState([])
+  const [libraryPlaylists,  setLibraryPlaylists] = useState([])
+  
   const loadLibrary = async () => {
     const playlists = await queryLibraryPlaylists()
     console.log(libraryPlaylists)
@@ -35,28 +35,44 @@ function App() {
   useEffect(
     () => {
       setIndexClipCurent(0)
-      if(inputLink.includes('list=')){
-        try {
-          loadPlaylist(inputLink, setPlaylistVideos,  setPlaylistName, setPlaylistLength, setLabelPlaylist)
-        } catch (error) {  }
-      }
-      else{ 
-        setLink(inputLink) 
-        setPlaylistVideos([])
+      if(inputLink !== ''){
+        if(inputLink.includes('list=')){
+          try {
+            loadPlaylist(inputLink, setPlaylistVideos,  setPlaylistName, setPlaylistLength, setLabelPlaylist)
+          } catch (error) {  }
+        }
+        else{ 
+          setLink(inputLink) 
+          setPlaylistVideos([])
+        }
       }
     }, [inputLink]
   )
 
+  const loadPlaylistFromDb = async () => {
+    const selectedPlaylist = await queryPlaylist(selectedLink)
+    loadPlaylistFromDatabase(selectedPlaylist, setPlaylistVideos, setPlaylistName, setPlaylistLength, setLabelPlaylist)
+  }
+
+  //pentru playlist incarcat din DB, nu cand il incarcam cu Pytube atunci cand dam un link ca input
+  useEffect(
+    () => {
+      try {
+        loadPlaylistFromDb()
+      } catch (error) {  }
+    }, [selectedLink]
+  )
+  
   useEffect(
     () => {
       if(playlistVideos.length > 0) 
-        setLink(playlistVideos[0]["video_url"])
+        setLink(playlistVideos[0]["url_video"])
     }, [playlistVideos]
   )
 
   useEffect(() => {
     if(playlistVideos.length > 0){ 
-      setLink(playlistVideos[indexClipCurent]["video_url"]) 
+      setLink(playlistVideos[indexClipCurent]["url_video"]) 
     }
   }, [indexClipCurent])
 
@@ -91,6 +107,7 @@ function App() {
         <div style={{width: "20vw", height: "100vh", display: "flex", alignItems: "flex-start", flexDirection: "column"}}>
           <MeniuDreapta  
             setInputLink      = {setInputLink}
+            setPlaylistVideos = {setPlaylistVideos}
             setViewSetari     = {setViewSetari}
             setViewCut        = {setViewCut}
             setViewPlaylist   = {setViewPlaylist}
@@ -115,14 +132,17 @@ function App() {
           indexClipCurent     = {indexClipCurent}
           playlistName        = {playlistName}
           inputLink           = {inputLink}
+          selectedLink        = {selectedLink}
           setLibraryPlaylists = {setLibraryPlaylists}
           setIndexClipCurent  = {setIndexClipCurent}
         /> 
       )}
       {viewBiblioteca && (
         <MeniuBiblioteca 
-          libraryPlaylists = {libraryPlaylists}
-          setInputLink     = {setInputLink}
+          libraryPlaylists    = {libraryPlaylists}
+          setSelectedLink     = {setSelectedLink}
+          setInputLink        = {setInputLink}
+          setPlaylistVideos   = {setPlaylistVideos}
         /> 
       )}
 

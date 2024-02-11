@@ -1,7 +1,7 @@
 import { faBookBookmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-const ButonBiblioteca = ({resizeWindow, viewBiblioteca, viewPlaylist, setViewBiblioteca, setViewSetari, setInputLink}) => {
+const ButonBiblioteca = ({resizeWindow, viewBiblioteca, viewPlaylist, setViewBiblioteca, setViewSetari}) => {
 
     const handleClickButonBiblioteca = () => {
         if(viewBiblioteca === false){

@@ -13,7 +13,7 @@ const VideoPlayer = ({link, playlistVideos, indexClipCurent, setIndexClipCurent,
     //daca suntem la ultimul clip sau este doar un singur video, se deruleaza inapoi
     const handleEnded = () => {
         if(playlistVideos.length > 0 && indexClipCurent !== playlistVideos.length - 1){
-            setLink(playlistVideos[indexClipCurent+1]["video_url"])
+            setLink(playlistVideos[indexClipCurent+1]["url_video"])
             setIndexClipCurent(indexClipCurent+1)
         } else { playerRef.current.seekTo(0, 'seconds') }
     }

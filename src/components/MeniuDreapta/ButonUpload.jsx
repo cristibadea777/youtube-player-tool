@@ -1,9 +1,10 @@
 import { faUpload } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-const ButonUpload = ({setInputLink, setPlaylistVideos}) => {
+const ButonUpload = ({setInputLink, setSelectedLink, setPlaylistVideos}) => {
     const handleLoad = async () => {
         try{
+          setSelectedLink('')
           let input = await navigator.clipboard.readText()
           setPlaylistVideos([])
           setInputLink(input)

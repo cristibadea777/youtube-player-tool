@@ -1,8 +1,8 @@
 import { faCopy, faDownload, faSave, faX } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { checkIfPlaylistExists, insertPlaylist, queryLibraryPlaylists } from "../../../DatabaseFunctions"
+import { checkIfPlaylistExists, deletePlaylist, insertPlaylist, queryLibraryPlaylists } from "../../../DatabaseFunctions"
 
-const OptiuniPlaylist = ({setViewOptiuniPlaylist, playlistName, inputLink, selectedLink, playlistVideos, setLibraryPlaylists}) => {
+const OptiuniPlaylist = ({setViewOptiuniPlaylist, playlistName, inputLink, selectedLink, playlistVideos, libraryPlaylists, setLibraryPlaylists, setSelectedLink, setPlaylistVideos}) => {
 
     const handleCopyLink = () => {
         //cand se selecteaza un  playlist din biblioteca input link devine gol de asta e conditia
@@ -24,10 +24,22 @@ const OptiuniPlaylist = ({setViewOptiuniPlaylist, playlistName, inputLink, selec
             handleClose() 
             return 
         }
-        insertPlaylist(playlistName, inputLink, playlistVideos)
+        await insertPlaylist(playlistName, inputLink, playlistVideos)
         const newLibraryPlaylists = await queryLibraryPlaylists()
         setLibraryPlaylists(newLibraryPlaylists)
         handleClose()
+    }
+
+    const handleRemoveFromLibrary = async () => {
+        await deletePlaylist(selectedLink)
+        setPlaylistVideos([])
+        const newLibraryPlaylists = await queryLibraryPlaylists()
+        setLibraryPlaylists(newLibraryPlaylists)
+        handleClose()
+    }
+
+    const handleOnDownload = async () => {
+        
     }
 
     return(
@@ -38,8 +50,8 @@ const OptiuniPlaylist = ({setViewOptiuniPlaylist, playlistName, inputLink, selec
             <div style={{width: "80%", height: "60%", display: "flex", flexDirection: "column", padding: "5%"}}>
                 <button onClick={handleCopyLink} className="butonOptiuni" >Copy link <FontAwesomeIcon icon={faCopy}></FontAwesomeIcon></button>
                 <button onClick={handleSaveToLibrary} className="butonOptiuni">Save to library <FontAwesomeIcon icon={faSave}></FontAwesomeIcon></button>
-                <button className="butonOptiuni">Remove from library <FontAwesomeIcon icon={faX}></FontAwesomeIcon></button>
-                <button className="butonOptiuni">Download <FontAwesomeIcon icon={faDownload}></FontAwesomeIcon></button>
+                <button onClick={handleRemoveFromLibrary} className="butonOptiuni">Remove from library <FontAwesomeIcon icon={faX}></FontAwesomeIcon></button>
+                <button onClick={handleOnDownload} className="butonOptiuni">Download <FontAwesomeIcon icon={faDownload}></FontAwesomeIcon></button>
                 <button onClick={handleClose}style={{position: "absolute", bottom: 15, right: 25, fontSize: "0.8em", color: "white", whiteSpace: "wrap", overflow: "hidden", padding: "3%"}}>Close</button>
             </div>
         </div>

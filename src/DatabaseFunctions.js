@@ -14,7 +14,6 @@ const createDatabase = async () => {
 
 const checkIfPlaylistExists = async (link) => {
     const count = await db.select("SELECT COUNT(*) FROM Playlist WHERE url_playlist = $1", [link])
-    console.log(count)
     return count[0]["COUNT(*)"]
 }
 
@@ -36,9 +35,10 @@ const queryLibraryPlaylists = async () => {
 }
 
 const queryPlaylist = async (playlistLink) => {
+    let playlist = {}
     const db_playlist = await db.select("SELECT * FROM Playlist WHERE url_playlist = $1", [playlistLink])
     const playlistVideos = await db.select("SELECT * FROM Video WHERE playlist_id = $1", [db_playlist[0]["playlist_id"]])
-    const playlist = {
+    playlist = {
         "nume_playlist"     :   db_playlist[0]["nume_playlist"],
         "length_playlist"   :   playlistVideos.length,
         "playlist_id"       :   db_playlist[0]["playlist_id"],
@@ -49,9 +49,17 @@ const queryPlaylist = async (playlistLink) => {
 }
 
 const queryPlaylistThumbnail = async (playlistId) => {
+    console.log("om")
     const thumbnail = await db.select("SELECT url_video FROM Video WHERE playlist_id = $1 LIMIT 1", [playlistId])
     return thumbnail[0]["url_video"]
 }
 
-export { checkIfPlaylistExists, createDatabase, emptyDatabase, insertPlaylist, queryLibraryPlaylists, queryPlaylist, queryPlaylistThumbnail }
+const deletePlaylist = async (playlistLink) => {
+    const playlistId = await db.select("SELECT playlist_id FROM Playlist WHERE url_playlist = $1", [playlistLink]) 
+
+    await db.execute("DELETE FROM Video WHERE playlist_id = $1", [playlistId[0]["playlist_id"]])
+    await db.execute("DELETE FROM Playlist WHERE url_playlist = $1", [playlistLink])
+}
+
+export { checkIfPlaylistExists, createDatabase, deletePlaylist, emptyDatabase, insertPlaylist, queryLibraryPlaylists, queryPlaylist, queryPlaylistThumbnail, wtfTest }
 

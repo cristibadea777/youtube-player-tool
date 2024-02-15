@@ -7,7 +7,8 @@ import MeniuBiblioteca from "./components/Meniuri/MeniuBiblioteca/MeniuBibliotec
 import MeniuPlaylist from './components/Meniuri/MeniuPlaylist/MeniuPlaylist';
 import MeniuSetari from './components/Meniuri/MeniuSetari';
 import VideoPlayer from './components/VideoPlayer/VideoPlayer';
-  
+
+
 function App() {
 
   const [inputLink,         setInputLink]        = useState('')
@@ -50,16 +51,18 @@ function App() {
   )
 
   const loadPlaylistFromDb = async () => {
-    const selectedPlaylist = await queryPlaylist(selectedLink)
+    let selectedPlaylist = await queryPlaylist(selectedLink)
     loadPlaylistFromDatabase(selectedPlaylist, setPlaylistVideos, setPlaylistName, setPlaylistLength, setLabelPlaylist)
   }
 
   //pentru playlist incarcat din DB, nu cand il incarcam cu Pytube atunci cand dam un link ca input
   useEffect(
     () => {
-      try {
-        loadPlaylistFromDb()
-      } catch (error) {  }
+      if(selectedLink !== ''){
+        try {
+          loadPlaylistFromDb()
+        } catch (error) {  }
+      }
     }, [selectedLink]
   )
   
@@ -107,6 +110,7 @@ function App() {
         <div style={{width: "20vw", height: "100vh", display: "flex", alignItems: "flex-start", flexDirection: "column"}}>
           <MeniuDreapta  
             setInputLink      = {setInputLink}
+            setSelectedLink   = {setSelectedLink}
             setPlaylistVideos = {setPlaylistVideos}
             setViewSetari     = {setViewSetari}
             setViewCut        = {setViewCut}
@@ -133,8 +137,11 @@ function App() {
           playlistName        = {playlistName}
           inputLink           = {inputLink}
           selectedLink        = {selectedLink}
+          libraryPlaylists    = {libraryPlaylists}
           setLibraryPlaylists = {setLibraryPlaylists}
           setIndexClipCurent  = {setIndexClipCurent}
+          setSelectedLink     = {setSelectedLink}
+          setPlaylistVideos   = {setPlaylistVideos}
         /> 
       )}
       {viewBiblioteca && (

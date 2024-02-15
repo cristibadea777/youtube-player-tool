@@ -52,6 +52,9 @@ button:active {
   overflow: hidden; 
   padding: 3%;
   margin-top: 3%;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .butonMeniuDreapta{

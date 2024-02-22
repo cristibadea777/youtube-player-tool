@@ -49,7 +49,6 @@ const queryPlaylist = async (playlistLink) => {
 }
 
 const queryPlaylistThumbnail = async (playlistId) => {
-    console.log("om")
     const thumbnail = await db.select("SELECT url_video FROM Video WHERE playlist_id = $1 LIMIT 1", [playlistId])
     return thumbnail[0]["url_video"]
 }
@@ -61,5 +60,4 @@ const deletePlaylist = async (playlistLink) => {
     await db.execute("DELETE FROM Playlist WHERE url_playlist = $1", [playlistLink])
 }
 
-export { checkIfPlaylistExists, createDatabase, deletePlaylist, emptyDatabase, insertPlaylist, queryLibraryPlaylists, queryPlaylist, queryPlaylistThumbnail, wtfTest }
-
+export { checkIfPlaylistExists, createDatabase, deletePlaylist, emptyDatabase, insertPlaylist, queryLibraryPlaylists, queryPlaylist, queryPlaylistThumbnail }

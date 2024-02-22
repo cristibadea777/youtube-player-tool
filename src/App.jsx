@@ -4,16 +4,17 @@ import { createDatabase, queryLibraryPlaylists, queryPlaylist } from "./Database
 import { loadPlaylist, loadPlaylistFromDatabase } from "./PlaylistFunctions";
 import MeniuDreapta from "./components/MeniuDreapta/MeniuDreapta";
 import MeniuBiblioteca from "./components/Meniuri/MeniuBiblioteca/MeniuBiblioteca";
+import MeniuCut from "./components/Meniuri/MeniuCut/MeniuCut";
 import MeniuPlaylist from './components/Meniuri/MeniuPlaylist/MeniuPlaylist';
-import MeniuSetari from './components/Meniuri/MeniuSetari';
+import MeniuSetari from './components/Meniuri/MeniuSetari/MeniuSetari';
 import VideoPlayer from './components/VideoPlayer/VideoPlayer';
-
 
 function App() {
 
   const [inputLink,         setInputLink]        = useState('')
   const [selectedLink,      setSelectedLink]     = useState('')
   const [link,              setLink]             = useState('')
+  const [title,             setTitle]            = useState('')
   const [indexClipCurent,   setIndexClipCurent]  = useState(0)
   const [labelPlaylist,     setLabelPlaylist]    = useState("Select a playlist first")
   const [playlistName,      setPlaylistName]     = useState('')
@@ -32,7 +33,7 @@ function App() {
       loadLibrary()
     }, []
   )
-
+ 
   useEffect(
     () => {
       setIndexClipCurent(0)
@@ -65,17 +66,19 @@ function App() {
       }
     }, [selectedLink]
   )
-  
+
   useEffect(
     () => {
-      if(playlistVideos.length > 0) 
+      if(playlistVideos.length > 0) {
         setLink(playlistVideos[0]["url_video"])
+        setTitle(playlistVideos[0]["nume_video"])
     }, [playlistVideos]
   )
 
   useEffect(() => {
     if(playlistVideos.length > 0){ 
       setLink(playlistVideos[indexClipCurent]["url_video"]) 
+      setTitle(playlistVideos[indexClipCurent]["nume_video"])
     }
   }, [indexClipCurent])
 
@@ -86,6 +89,8 @@ function App() {
   const [viewCut,         setViewCut]         = useState(false)
   const [viewPlaylist,    setViewPlaylist]    = useState(false)
   const [viewBiblioteca,  setViewBiblioteca]  = useState(false)
+  const [viewDownload,    setViewDownload]    = useState(false)
+  const [viewSearch,      setViewSearch]      = useState(false)
 
   useEffect(
     () => {
@@ -116,11 +121,15 @@ function App() {
             setViewCut        = {setViewCut}
             setViewPlaylist   = {setViewPlaylist}
             setViewBiblioteca = {setViewBiblioteca}
+            setViewSearch     = {setViewSearch}
+            setViewDownload   = {setViewDownload}
             playlistVideos    = {playlistVideos}
             viewSetari        = {viewSetari}
             viewBiblioteca    = {viewBiblioteca}
             viewCut           = {viewCut}
             viewPlaylist      = {viewPlaylist}
+            viewDownload      = {viewDownload}
+            viewSearch        = {viewSearch}
           />
         </div>
       </div>
@@ -128,6 +137,12 @@ function App() {
       {viewSetari   && ( 
         <MeniuSetari 
         />   
+      )}
+      {viewCut && (
+        <MeniuCut 
+          link    = {link}
+          title   = {title}
+        />
       )}
       {viewPlaylist && ( 
         <MeniuPlaylist 
@@ -147,6 +162,7 @@ function App() {
       {viewBiblioteca && (
         <MeniuBiblioteca 
           libraryPlaylists    = {libraryPlaylists}
+          selectedLink        = {selectedLink}
           setSelectedLink     = {setSelectedLink}
           setInputLink        = {setInputLink}
           setPlaylistVideos   = {setPlaylistVideos}

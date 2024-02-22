@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { queryPlaylistThumbnail } from "../../../DatabaseFunctions"
 import { getVideoThumbnail } from "../../../PlaylistFunctions"
 
-const PlaylisturiBiblioteca = ({libraryPlaylists, setSelectedLink, setInputLink, setPlaylistVideos}) => {
+const PlaylisturiBiblioteca = ({libraryPlaylists, selectedLink, setSelectedLink, setInputLink, setPlaylistVideos}) => {
 
     const [selectedPlaylistIndex, setSelectedPlaylistIndex] = useState('')
     
@@ -24,6 +24,7 @@ const PlaylisturiBiblioteca = ({libraryPlaylists, setSelectedLink, setInputLink,
     )
 
     const handleClickPlaylist = (index, url) => {
+        if(selectedLink === url) return
         setSelectedPlaylistIndex(index) 
         setPlaylistVideos([])
         setInputLink('')

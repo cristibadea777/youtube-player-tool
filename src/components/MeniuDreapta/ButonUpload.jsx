@@ -1,5 +1,4 @@
-import { faUpload } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { FaUpload } from "react-icons/fa";
 
 const ButonUpload = ({setInputLink, setSelectedLink, setPlaylistVideos}) => {
     const handleLoad = async () => {
@@ -11,7 +10,7 @@ const ButonUpload = ({setInputLink, setSelectedLink, setPlaylistVideos}) => {
         } catch { console.log("Error: " + error) }
     }
     return (
-      <button className="butonMeniuDreapta" onClick={handleLoad}> <FontAwesomeIcon icon={faUpload}> </FontAwesomeIcon></button>
+      <button className="butonMeniuDreapta" onClick={handleLoad}> <FaUpload/> </button>
     )
 }
 export default ButonUpload

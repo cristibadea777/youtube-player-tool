@@ -58,9 +58,10 @@ button:active {
 }
 
 .butonMeniuDreapta{
-  margin-top: 8%;
+  margin-top: 4%;
   margin-bottom: 10%;
   width: 100%;
+  padding: 0.3em 0.1em;   
 }
 
 .divVideoPlaylist:hover {
@@ -71,6 +72,23 @@ button:active {
   cursor: pointer;
 }
 
+.input-timp{
+  outline: none;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  color: #0f0f0f;
+  background-color: #ffffff;
+  transition: border-color 0.25s;
+  padding: 0;
+  width: 17%;
+  height: 100%;
+  border-radius: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
 .buttonOptiuniVideo{
   visibility: hidden;

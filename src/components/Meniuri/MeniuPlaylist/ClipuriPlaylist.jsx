@@ -3,16 +3,12 @@ import { getVideoThumbnail } from "../../../PlaylistFunctions";
 
 const ClipuriPlaylist = ({playlistVideos, indexClipCurent, setIndexClipCurent}) => {
 
-    const handleClickVideo = (index) => {
-        setIndexClipCurent(index)
-    }
+    const handleClickVideo = (index) => { setIndexClipCurent(index) }
 
     useEffect(
         () => {
             const element = document.getElementById("videoDiv"+indexClipCurent);
-            if (element) {
-              element.scrollIntoView({ behavior: 'smooth' });
-            }
+            if (element) element.scrollIntoView({ behavior: 'smooth' })
         }, [indexClipCurent]
     )
 

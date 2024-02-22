@@ -1,13 +1,15 @@
-import { faBookBookmark } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { GrDatabase } from "react-icons/gr";
 
-const ButonBiblioteca = ({resizeWindow, viewBiblioteca, viewPlaylist, setViewBiblioteca, setViewSetari}) => {
+const ButonBiblioteca = ({resizeWindow, viewBiblioteca, viewPlaylist, setViewBiblioteca, setViewSetari, setViewCut, setViewDownload, setViewSearch}) => {
 
     const handleClickButonBiblioteca = () => {
         if(viewBiblioteca === false){
             if(viewPlaylist === false) resizeWindow(640)
             else resizeWindow(940)
             setViewSetari(false)
+            setViewCut(false)
+            setViewDownload(false)
+            setViewSearch(false)
         } 
         else{
             if(viewPlaylist === false) resizeWindow(300)
@@ -17,7 +19,7 @@ const ButonBiblioteca = ({resizeWindow, viewBiblioteca, viewPlaylist, setViewBib
     }
 
     return (
-        <button onClick={handleClickButonBiblioteca} className="butonMeniuDreapta"> <FontAwesomeIcon color={viewBiblioteca ? "yellow" : "white"} icon={faBookBookmark}></FontAwesomeIcon></button>
+        <button onClick={handleClickButonBiblioteca} className="butonMeniuDreapta"> <GrDatabase color={viewBiblioteca ? "yellow" : "white"} /> </button>
     )
 }
 export default ButonBiblioteca

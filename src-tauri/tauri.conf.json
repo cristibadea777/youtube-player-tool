@@ -22,7 +22,8 @@
         "icons/icon.ico"
       ],
       "externalBin": [
-        "../bin/playlist_videos"
+        "../bin/playlist_videos",
+        "../bin/video_cut"
       ]
     },
     "allowlist": {
@@ -33,8 +34,16 @@
             "name": "../bin/playlist_videos",
             "sidecar": true,
             "args": true
+          }, 
+          {
+            "name": "../bin/video_cut",
+            "sidecar": true,
+            "args": true
           }
         ]
+      },
+      "path": {
+        "all": true
       },
       "window": {
         "all": false,

@@ -1,13 +1,15 @@
 import { FaUpload } from "react-icons/fa";
 
-const ButonUpload = ({setInputLink, setSelectedLink, setPlaylistVideos}) => {
+const ButonUpload = ({inputLink, setInputLink, setSelectedLink, setPlaylistVideos}) => {
     const handleLoad = async () => {
         try{
-          setSelectedLink('')
           let input = await navigator.clipboard.readText()
+          //daca linku de input actual e ca cel dat ca input - return
+          if(input === inputLink) return 
+          setSelectedLink('')
           setPlaylistVideos([])
           setInputLink(input)
-        } catch { console.log("Error: " + error) }
+        } catch (error) { console.log("Error: " + error) }
     }
     return (
       <button className="butonMeniuDreapta" onClick={handleLoad}> <FaUpload/> </button>

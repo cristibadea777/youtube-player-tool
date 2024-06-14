@@ -1,6 +1,6 @@
 const InputTime = ({hourStart, minuteStart, secondStart, hourEnd, minuteEnd, secondEnd, handleInputTime, setHourStart, setMinuteStart, setSecondStart, setHourEnd, setMinuteEnd, setSecondEnd}) => {
     return(
-        <div style={{width: "100%", height: "5%", display: "flex", justifyContent: "center", alignItems: "center", maarginTop: "5%", marginBottom: "2%"}}>
+        <div style={{width: "100%", height: "5%", display: "flex", justifyContent: "center", alignItems: "center", marginTop: "5%", marginBottom: "2%"}}>
             <div style={{width: "50%", display: "flex", flexDirection: "row"}}>
                 <div style={{width: "40%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}> 
                     <label>Start</label> 

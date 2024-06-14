@@ -1,3 +1,4 @@
+import { downloadDir } from "@tauri-apps/api/path";
 import { useEffect, useState } from "react";
 import "./App.css";
 import { createDatabase, queryLibraryPlaylists, queryPlaylist } from "./DatabaseFunctions";
@@ -5,15 +6,52 @@ import { loadPlaylist, loadPlaylistFromDatabase } from "./PlaylistFunctions";
 import MeniuDreapta from "./components/MeniuDreapta/MeniuDreapta";
 import MeniuBiblioteca from "./components/Meniuri/MeniuBiblioteca/MeniuBiblioteca";
 import MeniuCut from "./components/Meniuri/MeniuCut/MeniuCut";
+import MeniuDownload from "./components/Meniuri/MeniuDownload/MeniuDownload";
 import MeniuPlaylist from './components/Meniuri/MeniuPlaylist/MeniuPlaylist';
 import MeniuSetari from './components/Meniuri/MeniuSetari/MeniuSetari';
 import VideoPlayer from './components/VideoPlayer/VideoPlayer';
 
+  //TO DO: 
+
+  //De vazut daca clipul este valid - cu python - se verifica in "handleLoad" in MeniuPrincipal
+
+  //bara de "seek" in videoclip
+  //butoane retro 
+  //butoane inainte-inapoi 5 secunde
+
+  //daca e playlist, se deschide si MeniuVizualizarePlaylist
+
+  //download playlist - dupa ce se alege locatia (locatia stocata in sqlite) 
+
+  //search - scrape pe youtube -- de facut
+
+  //setari - backup/upload librarie, setare locatie
+  //pt bd...sa vad cum se exporta bd...sau creez un txt cu info din bd...si la import citesc info si inserez 
+
+  //filtrare clipuri in playlist si playlisturi in librarie 
+  //buton loop
+
+  //shuffle - activat se ia un clip random din lista
+
+  ///DACA SE APASA DOWNLOAD -  se mareste fereastra si se arata ce clip este descarcat acum - cu buton close  
+  //Downloading ...video/playlist nr/total
+  //casuta input index start de download - index finish
+//la descarcare se ia clipurile playlistului...clip cu clip, daca numele exista deja in download path nu se descarca, altfel se descarca
+
+  //verificare la pornire daca nr clipuri din db sunt la fel cu cele din de pe net. daca nu, sa se faca update. dar nu cu await ca nu are rost
+
+  //mutate sagetile de schimbat video inainte/inapoi sa fie duble sageti - la video nu la playlist
+
+  //daca playlist exista deja in BD sa nu se mai puna / sa dispara si butonu din optiuni 
+
+
+  //la cut -- daca se descarca nu mai pot face alt preview - de remediat
+
 function App() {
 
-  const [inputLink,         setInputLink]        = useState('')
-  const [selectedLink,      setSelectedLink]     = useState('')
-  const [link,              setLink]             = useState('')
+  const [inputLink,         setInputLink]        = useState('') //link dat ca input
+  const [selectedLink,      setSelectedLink]     = useState('') //link selectat din db
+  const [link,              setLink]             = useState('') //linkul clipului curent. fie input fie selectat 
   const [title,             setTitle]            = useState('')
   const [indexClipCurent,   setIndexClipCurent]  = useState(0)
   const [labelPlaylist,     setLabelPlaylist]    = useState("Select a playlist first")
@@ -21,6 +59,8 @@ function App() {
   const [playlistLength,    setPlaylistLength]   = useState('')
   const [playlistVideos,    setPlaylistVideos]   = useState([])
   const [libraryPlaylists,  setLibraryPlaylists] = useState([])
+
+  const [downloadPath,      setDownloadPath]     = useState("")
   
   const loadLibrary = async () => {
     const playlists = await queryLibraryPlaylists()
@@ -28,9 +68,15 @@ function App() {
     setLibraryPlaylists(playlists)
   }
 
+  const loadDownloadPath = async () => {
+    const downloadDirPath = await downloadDir()
+    setDownloadPath(downloadDirPath)
+  }
+
   useEffect(
     () => {
       loadLibrary()
+      loadDownloadPath()
     }, []
   )
  
@@ -72,6 +118,7 @@ function App() {
       if(playlistVideos.length > 0) {
         setLink(playlistVideos[0]["url_video"])
         setTitle(playlistVideos[0]["nume_video"])
+      }
     }, [playlistVideos]
   )
 
@@ -130,6 +177,7 @@ function App() {
             viewPlaylist      = {viewPlaylist}
             viewDownload      = {viewDownload}
             viewSearch        = {viewSearch}
+            inputLink         = {inputLink}
           />
         </div>
       </div>
@@ -140,8 +188,9 @@ function App() {
       )}
       {viewCut && (
         <MeniuCut 
-          link    = {link}
-          title   = {title}
+          link          = {link}
+          title         = {title}
+          downloadPath  = {downloadPath}
         />
       )}
       {viewPlaylist && ( 
@@ -168,12 +217,13 @@ function App() {
           setPlaylistVideos   = {setPlaylistVideos}
         /> 
       )}
+      {viewDownload && (
+        <MeniuDownload
+        />
+      )}
 
     </div>
   )
 }
 
 export default App;
-
-
-

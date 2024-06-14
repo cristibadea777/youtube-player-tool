@@ -1,9 +1,10 @@
+import { Command } from "@tauri-apps/api/shell"
 import { useRef, useState } from "react"
 import CurrentTime from "./CurrentTime"
 import InputTime from "./InputTime"
 import PlayerCut from "./PlayerCut"
 
-const MeniuCut = ({link, title}) => {
+const MeniuCut = ({link, title, downloadPath}) => {
 
     const [playing, setPlaying] = useState(false)
     const playerRef             = useRef()
@@ -17,6 +18,8 @@ const MeniuCut = ({link, title}) => {
     const [hourEnd,   setHourEnd]   = useState('00')
     const [minuteEnd, setMinuteEnd] = useState('00')
     const [secondEnd, setSecondEnd] = useState('00')
+
+    const [stareCut, setStareCut] = useState("")
 
     const [currentTime, setCurrentTime] = useState(0)
 
@@ -36,16 +39,39 @@ const MeniuCut = ({link, title}) => {
     }
     
     const handlePreview = () => {
+        setStareCut("")
         setPlaying(!playing)
         let start = toSeconds(hourStart, minuteStart, secondStart)
         let end   = toSeconds(hourEnd, minuteEnd, secondEnd) 
         if(end > 0 && start >= 0 && end > start){
             setStartTime(start)
             setEndTime(end)
-            setEndTime
         }
     }
 
+    const handleCut = async () => {
+        let start = toSeconds(hourStart, minuteStart, secondStart)
+        let end   = toSeconds(hourEnd, minuteEnd, secondEnd) 
+        if(!(end > 0 && start >= 0 && end > start)){
+            setStareCut("Error: start time is bigger than end time")
+            return
+        }
+        setStareCut("Cutting and downloading...")
+        //apelare sidecar 
+        try {
+            const command = Command.sidecar('../bin/video_cut', [link, start.toString(), end.toString(), downloadPath])
+            const output = await command.execute()
+            console.log(startTime)
+            console.log(endTime)
+            const outputString = output.stdout     
+            console.log(outputString)     
+            setStareCut("Downloaded to: " + downloadPath)
+        } catch (error) { 
+            console.log(error)
+            setStareCut("Error: " + error)
+        }
+    }
+    
     return (
         <div style={{display: "flex", width: "340px", height: "99%", alignItems: "center",  borderLeft: "1px solid #2f2f2f", justifyContent: "flex-start", flexDirection: "column"}}>
             
@@ -63,6 +89,7 @@ const MeniuCut = ({link, title}) => {
                     setPlaying      = {setPlaying}
                     handleEnded     = {handleEnded}
                     setCurrentTime  = {setCurrentTime}
+                    stareCut        = {stareCut}
                 />
             </div>
 
@@ -82,7 +109,7 @@ const MeniuCut = ({link, title}) => {
 
             <div style={{display: "flex", flex: 1, width: "100%", alignItems: "center", justifyContent: "space-between"}}>
                 <button onClick={handlePreview} style={{width: "30%"}}>{!playing ? "Preview" : "Stop"}</button>
-                <button style={{width: "30%"}}>Cut</button>
+                <button onClick={handleCut} style={{width: "30%"}}>Cut</button>
             </div>
         </div>
     )

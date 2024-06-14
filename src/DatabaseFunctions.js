@@ -5,11 +5,24 @@ const db = await Database.load("sqlite:test.db")
 const emptyDatabase = async () => {
     await db.execute("DROP TABLE Video")
     await db.execute("DROP TABLE Playlist")
+    //await db.execute("DROP TABLE Settings")
 } 
+
+//const checkSetariGoale = async () => {
+//    const result = await db.select("SELECT COUNT(*) AS count FROM Settings")
+//    return result[0].count === 0
+//}
 
 const createDatabase = async () => {
     await db.execute("CREATE TABLE IF NOT EXISTS Playlist(nume_playlist TEXT, url_playlist TEXT, playlist_id INTEGER PRIMARY KEY)")
     await db.execute("CREATE TABLE IF NOT EXISTS Video(nume_video TEXT, url_video TEXT, playlist_id INTEGER, FOREIGN KEY(playlist_id) REFERENCES Playlist(playlist_id))")
+    //await db.execute("CREATE TABLE IF NOT EXISTS Settings(download_path TEXT, settings_id INTEGER PRIMARY KEY)")
+    //const setariGoale = await checkSetariGoale()
+    //if(setariGoale){
+    //    const downloadPathInsertQuery  = "INSERT INTO Settings(download_path, settings_id) VALUES ($1, $2)"
+    //    const downloadPathInsertValues = ["set download path", 1]
+    //    await db.execute(downloadPathInsertQuery, downloadPathInsertValues) 
+    //}
 }
 
 const checkIfPlaylistExists = async (link) => {
@@ -60,4 +73,6 @@ const deletePlaylist = async (playlistLink) => {
     await db.execute("DELETE FROM Playlist WHERE url_playlist = $1", [playlistLink])
 }
 
+
 export { checkIfPlaylistExists, createDatabase, deletePlaylist, emptyDatabase, insertPlaylist, queryLibraryPlaylists, queryPlaylist, queryPlaylistThumbnail }
+

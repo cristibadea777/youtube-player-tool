@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import ReactPlayer from "react-player";
 
-const PlayerCut = ({link, playerRef, playing, startTime, endTime, setPlaying, handleEnded, setCurrentTime}) => {
+const PlayerCut = ({link, playerRef, playing, startTime, endTime, setPlaying, handleEnded, setCurrentTime, stareCut}) => {
 
     const seekToStartTime = () => {
         if(playerRef.current){
@@ -16,6 +16,12 @@ const PlayerCut = ({link, playerRef, playing, startTime, endTime, setPlaying, ha
     )
 
     return (
+        <>
+        {stareCut !== "" ? (
+        <div style={{width: "100%", height: "100%", alignItems: "center", justifyContent: "center", display: "flex"}}>
+            <p>{stareCut}</p>
+        </div>
+        ) : (
         <ReactPlayer
             ref={playerRef}
             url={link}
@@ -32,6 +38,8 @@ const PlayerCut = ({link, playerRef, playing, startTime, endTime, setPlaying, ha
                 }
             }}
         />
+        )}
+        </>
     )
 }
 export default PlayerCut

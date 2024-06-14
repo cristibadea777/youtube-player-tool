@@ -44,3 +44,4 @@ if __name__ == "__main__":
     #print("--- %s seconds ---" % (time.time() - start_time))
 
 #python -m PyInstaller --onefile playlist_videos.py
+#ca sa fie facut program executabil pt "externalBin": ["../bin/playlist_videos" ] in tauri.conf.json; apoi e pus ca sidecar in tauri.conf.json
